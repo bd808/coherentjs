@@ -1,0 +1,65 @@
+<project name="coherent" default="release" basedir=".">
+	<description>build the Coherent JavaScript library</description>
+
+	<!-- project properties -->
+	<property name="projectName" value="${ant.project.name}"/>
+	<property name="root" location=".."/>
+	<property name="support" location="${root}/build"/>
+	<property name="src" location="${root}/src"/>
+	<property name="version" value="0.5.0.dev"/>
+	<property name="lang" value="en"/>
+	<property name="release" location="${root}/release"/>
+    <property name="projectSourceFile" location="${src}/${projectName}.js"/>
+    <property name="outputFileDebug" location="${release}/${projectName}-debug.js"/>
+    <property name="outputFileConcat" location="${release}/${projectName}-concat.js"/>
+    <property name="outputFile" location="${release}/${projectName}.js"/>
+    
+	<!-- help task -->
+	<target name="help">
+		<echo>
+build targets:
+	clean - deletes all files in the ${release} directory
+		</echo>
+	</target>
+	<!-- end help task -->
+
+    <target name="clean">
+        <delete dir="${release}"/>
+    </target>
+    
+    <target name="lint" depends="clean">
+	    <exec executable="./bin/i386/jsl" 
+	        resolveexecutable="true" failonerror="true"
+	        dir="${src}">
+	        <arg line="-nologo -conf ${root}/jsl.conf -process ${projectSourceFile}"/>
+	    </exec>
+    </target>
+
+    <target name="copy" depends="clean">
+    	<mkdir dir="${release}" />
+    	<copy todir="${release}" preservelastmodified="true">
+    		<fileset dir="${src}" includes="**/*.js" />
+    		<fileset dir="${src}" includes="NOTICE" />
+    	</copy>
+    </target>
+    
+    <target name="concat" depends="copy">
+	    <exec executable="./bin/js" 
+	        resolveexecutable="true" failonerror="true"
+	        dir="${release}">
+            <arg line="${support}/build.js -jsl -o ${outputFileConcat} -bootstrap ${outputFileDebug} -bootstrap-template ${support}/bootstrap-template.js ${projectSourceFile}"/>
+	    </exec>
+    </target>
+    
+    <target name="compress" depends="concat">
+        <java jar="./lib/yuicompressor-2.1.jar" failonerror="true"
+            fork="true" logerror="true">
+            <arg line="-o ${outputFile} ${outputFileConcat}"/>
+        </java>
+    </target>
+    
+	<target name="release" depends="clean,lint,compress">
+	    
+    </target>
+    
+</project>

@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>bindings Test</title>
+        <link rel="stylesheet" href="main.css" type="text/css" media="screen" />
+
+        <script src="debugging.js"></script>
+        <script src="scriptaculous/prototype.js"></script>
+        <script src="scriptaculous/scriptaculous.js"></script>
+        <script src="../src/coherent.js"></script>
+        <script src="../src/kvo.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../src/transformers.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../src/controllers.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../src/widgets.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../src/model.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            
+            function isEnabled()
+            {
+                return this.size==1;
+            }
+            
+            function compareLength( v )
+            {
+                var l= this.length - v.length;
+                if (l<0)
+                    return -1;
+                else if (l>0)
+                    return 1;
+                else
+                    return 0;
+            }
+
+            var state=
+            {
+//              name: "foobar",
+                name: function () { return "foobar"; },
+                size: 4,
+                selectedItem: null,
+                nested:
+                    {
+                        width: 5,
+                        eggs: "many"
+                    },
+                
+                urls:
+                    {
+                        lists: "panel1.html",
+                        tpm: "panel2.html"
+                    },
+                    
+                enabled: function () { return this.__enabled; },
+                setEnabled: function (newValue) { this.__enabled= newValue; },
+                
+                __enabled: true,
+                items:  [
+                            { name: "one", size: 1 },
+                            { name: "two", size: 2 },
+                            { name: "two", size: 5 },
+                            { name: "three", size: 3 },
+                            { name: "four", size: 4 }
+                        ],
+                        
+                filter: function( value )
+                {
+                    return true;
+                    return (value.name.length<=3);
+                },
+                
+                sortDescriptors: [  new coherent.SortDescriptor("name", true, 
+                                                            compareLength )
+                                 ],
+                zebras: [
+                            { name: "zebra",
+                              items: [
+                                        { name: "bob" },
+                                        { name: "joe" }
+                                     ] }
+                        ],
+                        
+                selection: []
+            };
+
+            /** Constructor for a ValueTransformer that converts boolean values
+                into either Yes or No.
+             **/
+            function YesNoValueTransformer()
+            {
+                function transformedValue( value )
+                {
+                    return value?"Yes":"No";
+                }
+                
+                function reverseTransformedValue( value )
+                {
+                    return ("yes"==value.toLowerCase());
+                }
+                
+                this.transformedValue= transformedValue;
+                this.reverseTransformedValue= reverseTransformedValue;
+            }
+
+            /** Register an instance of GenericValueTransformer that handles
+                boolean values for class names.
+             **/
+            coherent.registerTransformerWithName( new coherent.GenericTransformer( [ true, false ], [ "blue", "green" ] ),
+                                              "EnabledClassValueTransformer" );
+
+            function documentDidLoad()
+            {
+                coherent.KVO.adaptTree( state );
+
+                var items= new coherent.ArrayController( "items" );
+                items.bindNameToKeyPath( "content", "state.items" );
+                items.bindNameToKeyPath( "selectionIndexes", "state.selection" );
+                //items.bindNameToKeyPath( "filterPredicate", "state.filter" );
+                //items.bindNameToKeyPath( "sortDescriptors", "state.sortDescriptors" );
+
+                coherent.registerModelWithName( state, "state" );
+                coherent.setupNode();
+
+                state.addObserverForKeyPath(this, observeEggChange, "nested.eggs");
+            }
+            
+            function observeEggChange( change )
+            {
+                trace( "nested.eggs changed: old=" + change.oldValue +
+                       " new=" + change.newValue );
+            }
+            
+            function twiddleSize()
+            {
+                var newNested= new coherent.KVO();
+                newNested.setValueForKey( "few", "eggs" );
+                newNested.setValueForKey( 7, "width" );
+
+                state.willChangeValueForKey( "nested" );
+                state.willChangeValueForKey( "nested" );
+                //state.nested= newNested;
+                state.setValueForKey( newNested, "nested" );
+                trace( "first call to didChangeValueForKey" );
+                state.didChangeValueForKey( "nested" );
+                trace( "second call to didChangeValueForKey" );
+                state.didChangeValueForKey( "nested" );
+            }
+            
+            function cookEggs()
+            {
+                state.setValueForKeyPath( "zero", "nested.eggs" );
+            }
+            
+            function toggleEnabled()
+            {
+                var enabled= state.enabled();
+                state.setEnabled(!enabled);
+            }
+            
+            function createItem()
+            {
+                var name= $("newName");
+                if (!name)
+                    return;
+                var item= new coherent.KVO();
+                item.name= name.value;
+
+                state.items.addObject( item );
+            }
+        </script>
+
+        
+    </head>
+    
+    <body onload="documentDidLoad()">
+        <div class="tabs" widget="ExternalTab" srcTableKeyPath="state.urls">
+            <div class="tabContainer">
+                <label for="lists">Lists</label>
+                <label for="tpm">TPM</label>
+            </div>
+            <div class="wait">
+                <img src="spinner-big.gif" width="32" height="32"/>
+            </div>
+        </div>
+
+        Name 1: <input id="name1" valueKeyPath="state.name"/><br/>
+
+        Eggs: <input id="eggs1" valueKeyPath="state.nested.eggs"
+                nullPlaceHolder="eggs!"/><br/>
+
+        <label id="foobar" for="name2" enabledKeyPath="state.enabled"
+            textKeyPath="state.name"></label>
+            <input name="name2" id="name2" valueKeyPath="state.nested.eggs"
+                    enabledKeyPath="state.enabled"/><br/>
+        <input type="checkbox" id="enabled1" valueKeyPath="state.enabled"/> Enabled<br/>
+        
+        Enabled 2: <input type="checkbox" id="enabled2" valueKeyPath="state.enabled"/><br/>
+        
+        <button onclick="toggleEnabled()">Toggle Enabled</button><br/>
+        
+        <textarea id="box" valueKeyPath="state.nested.eggs"></textarea>
+        
+        Size: <input type="radio" name="size" id="size1" value="0"
+                    enabledKeyPath="state.enabled" valueKeyPath="state.size"/> 0
+              <input type="radio" name="size" id="size2" value="1"
+                    enabledKeyPath="state.enabled" valueKeyPath="state.size"/> 1
+              <input type="radio" name="size" id="size3" value="2"
+                    enabledKeyPath="state.enabled" valueKeyPath="state.size"/> 2              
+              <input type="radio" name="size" id="size4" value="3"
+                    enabledKeyPath="state.enabled" valueKeyPath="state.size"/> 3              
+              <input type="radio" name="size" id="size5" value="4"
+                    enabledKeyPath="state.enabled" valueKeyPath="state.size"/> 4              
+              <br/>
+        <input type="button" value="twiddle size" onclick="twiddleSize()"/>
+        <input type="button" value="cook eggs" onclick="cookEggs()"/><br/>
+
+        <div>
+            <label classKeyPath="state.enabled(EnabledClassValueTransformer)">Enabled:</label>
+            <input widget="InlineInput" id="inlineEggs"
+                valueKeyPath="state.nested.eggs"/>
+        </div>
+
+        Size: <input id="sizeInput" valueKeyPath="state.size" nullPlaceholder="foo"/><br/>
+
+            <input type="button" enabledKeyPath="state.enabled"
+                valueKeyPath="state.nested.eggs" value="Foober"/>
+            <br/>
+            
+            <select id="select1" size="4" contentKeyPath="state.items"
+                displayValuesKeyPath="state.items.name"
+                selectedIndexKeyPath="state.size"
+                selectedObjectKeyPath="state.selectedItem" style="width:50px;"></select>
+
+        <ul contentKeyPath="state.zebras"
+            selectedObjectKeyPath="state.selectedZebra">
+            <li>zebra:
+                <ul contentKeyPath="*.items">
+                    <li> name: <span textKeyPath="state.name">Name</span>
+                         <span textKeyPath="*.name">Name</span> </li>
+                </ul>
+            </li>
+        </ul>
+        
+        <div visibleKeyPath="state.enabled">
+            This is a sample: <span textKeyPath="state.nested.eggs"></span>
+        </div>
+
+        <input id="newName"><input type="button" onclick="createItem()" value="new Item"/><br>
+
+        <h1>HTML</h1>       
+        <div htmlKeyPath="state.nested.eggs"></div>
+        <h1>Text</h1>
+        <div textKeyPath="state.nested.eggs"></div>
+
+    </body>
+</html>

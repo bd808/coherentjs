@@ -1,0 +1,497 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+    <head>
+        <title>Configurator Demo</title>
+        
+        <script src="../js/prototype/prototype.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../js/scriptaculous/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../js/prototype/domready.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../release/coherent.js" type="text/javascript" charset="utf-8"></script>
+            
+        <script src="../js/demo/configurator.js" type="text/javascript" charset="utf-8"></script>
+        
+        <style>
+            body
+            {
+                width: 980px;
+                margin: 0 auto;
+                font-family: "lucida grande";
+                font-size: 12px;
+            }
+
+            ul
+            {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            
+            p
+            {
+                padding: 0;
+                margin: 0;
+            }
+            
+            #subnav
+            {
+                margin: 10px 0;
+            }
+
+            #subnav:after
+            {
+                content: "."; 
+                display: block; 
+                height: 0; 
+                clear: both; 
+                visibility: hidden;
+            }
+            
+            * html #subnav
+            {
+                height: 1%;
+            }
+            
+            #subnav h1
+            {
+                float: left;
+                width: 160px;
+                height: 20px;
+                padding: 10px;
+                margin: 0;
+                font-size: 16px;
+                line-height: 20px;
+                background-color: #ccc;
+                color: #333;
+                text-align: center;
+            }
+
+            #usernav
+            {
+                height: 40px;
+                margin: 0;
+                background-color: #eee;
+                color: #666;
+                margin-left: 190px;
+            }
+            
+            #usernav ul
+            {
+                float: right;
+                padding: 10px 0;
+            }
+            
+            #usernav li
+            {
+                display: inline;
+                line-height: 20px;
+                border-left: 1px solid #bbb;
+                padding: 0 10px;
+            }
+            
+            #usernav li.first
+            {
+                border-left: none;
+            }
+            
+            .options
+            {
+                width: 760px;
+            }
+            
+            .option
+            {
+                margin-left: 150px;
+            }
+            
+            .option h3
+            {
+                margin-bottom: 0;
+            }
+            
+            .priceDelta
+            {
+                color: #888;
+                font-size: 10px;
+            }
+            
+            #summary
+            {
+                float: right;
+                width: 200px;
+                background-color: #eee;
+            }
+            
+            #summary h2
+            {
+                margin: 0;
+                font-size: 12px;
+                background-color: #ccc;
+                padding: 5px 10px;
+            }
+            
+            #summary div
+            {
+                padding: 10px;
+            }
+            
+            #summary h3
+            {
+                margin: 0;
+                font-size: 12px;
+            }
+            
+            #summary h4
+            {
+                margin: 5px 0 0 0;
+                font-size: 12px;
+            }
+            
+            #summary div.configuration
+            {
+                border-top: 1px solid #ccc;
+            }
+            
+            #summary ul
+            {
+                list-style: disc;
+                margin-left: 1.5em;
+            }
+            
+            #summary li
+            {
+                font-size: 10px;
+                line-height: 14px;
+                margin: 5px 0;
+            }
+            
+            #summary li.upgrade
+            {
+                font-weight: bold;
+            }
+            
+            #summary .free-shipping
+            {
+                color: red;
+            }
+            
+            #summary .next-business-day
+            {
+                font-size: 10px;
+            }
+            
+            .forward-deploy
+            {
+                width: 400px;
+                border: 1px solid #ccc;
+                padding: 10px;
+                margin-top: 10px;
+            }
+            
+            .forward-deploy h3
+            {
+                margin: 0;
+            }
+            
+            .forward-deploy ul
+            {
+                margin-top: 10px;
+            }
+            
+            .forward-deploy li
+            {
+                padding: 3px;
+            }
+            
+            .forward-deploy li a
+            {
+                color: black;
+                text-decoration: none;
+            }
+            
+            .forward-deploy li.selected
+            {
+                background-color: #eef;
+            }
+            
+            .query-debug
+            {
+                margin-top: 2em;
+                border-top: 1px solid #ccc;
+            }
+            
+            .values li
+            {
+                background-color: #eee;
+                margin: 2px 0;
+            }
+            
+            .values li.selected
+            {
+                background-color: #eef;
+            }
+        </style>
+
+        <script src="../js/demo/configurator.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script type="text/javascript" charset="utf-8">
+        
+            var state= new State('state', {
+    
+                options: {
+                    partNumber: [
+                        new OptionValue('partNumber', {
+                            key: 'MA896LL/A',
+                            label: 'Standard Configuration'
+                        }),
+                        new OptionValue('partNumber', {
+                            key: 'MB075LL/A',
+                            label: 'Glossy Screen'
+                        }),
+                        new OptionValue('partNumber', {
+                            key: 'Z0EC8LL/A',
+                            label: '200GB, 7200 RPM Hard Drive'
+                        }),
+                        new OptionValue('partNumber', {
+                            key: 'Z0EC9LL/A',
+                            label: '4GB of RAM and a 200GB, 7200 RPM Hard Drive'
+                        })
+                    ],
+        
+                    processor: [
+                        new OptionValue('processor', {
+                            key: 'duo2_4',
+                            label: '2.4GHz Intel Core 2 Duo',
+                            price: 0
+                        }),
+                        new OptionValue('processor', {
+                            key: 'duo2_6',
+                            label: '2.6GHz Intel Core 2 Duo',
+                            price: 250.00
+                        })
+                    ],
+    
+                    memory: [
+                        new OptionValue('memory', {
+                            key: '2GB',
+                            label: '2GB 667 DDR2 SDRAM - 2x1GB',
+                            price: 0
+                        }),
+                        new OptionValue('memory', {
+                            key: '4GB',
+                            label: '4GB 667 DDR2 SDRAM - 2x2GB',
+                            price: 700.00
+                        })
+                    ],
+        
+                    harddrive: [
+                        new OptionValue('harddrive', {
+                            key: '160GB',
+                            label: '160GB Serial ATA Drive @ 5400 rpm',
+                            price: 0
+                        }),
+                        new OptionValue('harddrive', {
+                            key: '250GB',
+                            label: '250GB Serial ATA Drive @ 5400 rpm',
+                            price: 150.00
+                        }),
+                        new OptionValue('harddrive', {
+                            key: '200GB',
+                            label: '200GB Serial ATA Drive @ 7200 rpm',
+                            price: 200.00
+                        })
+                    ],
+        
+                    display: [
+                        new OptionValue('display', {
+                            key: 'matte',
+                            label: '15 inch Widescreen Display',
+                            price: 0
+                        }),
+                        new OptionValue('display', {
+                            key: 'glossy',
+                            label: '15 inch Glossy Widescreen Display',
+                            price: 0,
+                            upgrade: true
+                        })
+                    ]
+                },
+    
+                config: {
+                    subtotal: '$2,499',
+                    shipping: 'Within 24 hours',
+                    freeShipping: true,
+                    nextBusinessDayDelivery: true,
+                    partNumber: null,
+                    processor: null,
+                    memory: null,
+                    harddrive: null,
+                    display: null
+                }
+    
+            });
+            
+            function setup()
+            {
+                coherent.setupNode();
+            }
+            
+            Event.onDOMReady(setup);
+        </script>
+    </head>
+
+    <body>
+    
+        <div id="subnav">
+            <h1>Company Store</h1>
+            <div id="usernav">
+                <ul>
+                    <li class="first">Help</li>
+                    <li>Account</li>
+                    <li id="cart" class="last">Cart</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="summary">
+            <h2>Summary</h2>
+            <div>
+                <h3>Subtotal:</h3>
+                <p textKeyPath="state.config.subtotal">$2300</p>
+                <h4>Ships:</h4>
+                <p textKeyPath="state.config.shipping">Soon</p>
+                <p class="free-shipping" visibleKeyPath="state.config.freeShipping">Free Shipping</p>
+                <p class="next-business-day"
+                    visibleKeyPath="state.config.nextBusinessDayDelivery">Next business day delivery available</p>
+            </div>
+            
+            <div class="configuration">
+                <ul>
+                    <li textKeyPath="state.config.processor.label"
+                        classKeyPath="state.config.processor.upgrade(Upgrade)"></li>
+                    <li textKeyPath="state.config.memory.label"
+                        classKeyPath="state.config.memory.upgrade(Upgrade)"></li>
+                    <li textKeyPath="state.config.harddrive.label"
+                        classKeyPath="state.config.harddrive.upgrade(Upgrade)"></li>
+                    <li textKeyPath="state.config.display.label"
+                        classKeyPath="state.config.display.upgrade(Upgrade)"></li>
+                </ul>
+            </div>
+        </div>
+        <script type="text/javascript" charset="utf-8">
+            // coherent.setupNode($('summary'));
+        </script>
+        
+        <div id="configurator">
+            <h2>Customise your notebook computer</h2>
+            <p>Use the options below to build the most incredible machine ever.</p>
+            
+            <div class="forward-deploy">
+                <h3>Not sure which notebook to buy?</h3>
+                <p>Choose from one of our most popular configurations.</p>
+                <ul contentKeyPath="state.options.partNumber"
+                    selectedObjectKeyPath="state.config.partNumber">
+                    <li><a href="#" onclick="return false;" textKeyPath="*.label">Forward Deploy</a></li>
+                </ul>
+            </div>
+            
+            <ul class="options">
+                <li class="option" id="processor">
+                    <h3>Processor</h3>
+                    <p>Enjoy really great performance from the Intel Core 2
+                    Duo Plus Centrino Mobile Edition, which is completely
+                    buzzword compliant. Choose how fast you want to go.
+                    </p>
+                    <ul class="values"
+                        selectedObjectKeyPath="state.config.processor"
+                        contentKeyPath="state.options.processor">
+                        <li class="value">
+                            <label><input type="radio" name="processorValue"
+                                        valueKeyPath="*.key"
+                                        checkedKeyPath="*.checked">
+                                <span textKeyPath="*.label"></span>
+                                <span class="priceDelta" nullPlaceholder=""
+                                    textKeyPath="*.priceDelta(PriceDelta)"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </li>
+                
+                <li class="option" id="memory">
+                    <h3>Memory</h3>
+                    <p>The more memory you have the faster you go, the more
+                    applications you can run at once, and the cooler you are.
+                    Don't be uncool. Buy more memory.
+                    </p>
+                    <ul class="values"
+                        selectedObjectKeyPath="state.config.memory"
+                        contentKeyPath="state.options.memory">
+                        <li class="value">
+                            <label><input type="radio" name="memoryValue"
+                                        valueKeyPath="*.key"
+                                        checkedKeyPath="*.checked">
+                                <span textKeyPath="*.label"></span>
+                                <span class="priceDelta" nullPlaceholder=""
+                                    textKeyPath="*.priceDelta(PriceDelta)"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="option" id="harddrive">
+                    <h3>Hard Drive</h3>
+                    <p>A Serial ATA hard drive gives you more space for data
+                    and applications. Choose among several capacities at drive
+                    speeds up to 7200 rpm.
+                    </p>
+                    <ul class="values"
+                        selectedObjectKeyPath="state.config.harddrive"
+                        contentKeyPath="state.options.harddrive">
+                        <li class="value">
+                            <label><input type="radio" name="diskValue"
+                                        valueKeyPath="*.key"
+                                        checkedKeyPath="*.checked">
+                                <span textKeyPath="*.label"></span>
+                                <span class="priceDelta" nullPlaceholder=""
+                                    textKeyPath="*.priceDelta(PriceDelta)"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </li>
+                
+                <li class="option" id="display">
+                    <h3>Display</h3>
+                    <p>You can choose between glossy or matte finish for your
+                    15 inch widescreen display. Either way, you get glorious
+                    edge to edge pixels!
+                    </p>
+                    <ul class="values"
+                        selectedObjectKeyPath="state.config.display"
+                        contentKeyPath="state.options.display">
+                        <li class="value">
+                            <label><input type="radio" name="displayValue"
+                                        valueKeyPath="*.key"
+                                        checkedKeyPath="*.checked">
+                                <span textKeyPath="*.label"></span>
+                                <span class="priceDelta" nullPlaceholder=""
+                                    textKeyPath="*.priceDelta(PriceDelta)"></span>
+                            </label>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <script type="text/javascript" charset="utf-8">
+            // coherent.setupNode($('configurator'));
+        </script>
+        
+        <div id="debugger" class="query-debug">
+            <h3>Query sent to server</h3>
+            <p textKeyPath="state.query" nullPlaceholder="No Query">Query</p>
+        </div>
+        <script type="text/javascript" charset="utf-8">
+            // coherent.setupNode($('debugger'));
+        </script>
+    </body>
+</html>

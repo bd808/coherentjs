@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <link rel="stylesheet" href="css/main.css" type="text/css"
+            media="screen" charset="utf-8">
+        <link rel="stylesheet" href="css/demo.css" type="text/css"
+            media="screen" charset="utf-8">
+        <link rel="stylesheet" href="css/lightbox.css" type="text/css"
+            media="screen" charset="utf-8">
+
+        <script src="../js/prototype/prototype.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../js/scriptaculous/scriptaculous.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../js/prototype/domready.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../js/lightbox.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../../release/coherent.js" type="text/javascript" charset="utf-8"></script>
+            
+        <script src="../js/demo/flickr.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script type="text/javascript" charset="utf-8">
+            var searchController = new demo.flickr.FindByUsernameController("search");
+            var userController = new demo.flickr.UserInfoController("user");
+            var userTagsController = new demo.flickr.UserTagsController("userTags");
+            var tagsController = new coherent.ArrayController("tags");
+            var userPhotosController= new demo.flickr.UserPhotosController("userPhotos");
+            
+            function setup() {
+                userController.bindNameToKeyPath("userId", "search.content.nsid");
+                userTagsController.bindNameToKeyPath("userId", "search.content.nsid");
+                tagsController.bindNameToKeyPath("content", "userTags.content");
+                userPhotosController.bindNameToKeyPath("userId", "search.content.nsid");
+                userPhotosController.bindNameToKeyPath("tags", "tags.selectedObjects._content");
+
+                coherent.setupNode();
+            }
+            
+            Event.onDOMReady(setup);
+        </script>
+    </head>
+    
+    <body>
+	<div id="demo">
+        <div id="userSearch">
+            <h1><span>Flickr Browser</span></h1>
+            <label for="userName">Flickr Username:</label>
+            <input id="userName" type="text" valueKeyPath="search.parameters.username">
+        </div>
+        
+        <div id="userInfo">
+            <div class="queryIndicator" visibleKeyPath="user.queryInProgress">
+                <img src="images/spinner.gif" width="16" height="16"> Loading user profile&hellip;
+            </div>
+        
+            <img class="buddyIcon" srcKeyPath="user.iconUrl">
+            <h1 textKeyPath="user.content.realname._content">Real Name</h1>
+            <p textKeyPath="user.content.location._content">Location</p>
+        </div>
+        
+        <div id="userTagsList">
+            <div class="queryIndicator" visibleKeyPath="userTags.queryInProgress">
+                <img src="images/spinner.gif" width="16" height="16"> Loading tags&hellip;
+            </div>
+        
+            <table class="tableHeader" widget="TableHeader" sortDescriptorsKeyPath="tags.sortDescriptors"
+                cellpadding="0" cellspacing="0">
+                <tr>
+                    <th class="itemName" sortKey="_content">Tags</th>
+                </tr>
+            </table>
+            <div class="scrollView">
+            <table class="tableBody" contentKeyPath="tags.arrangedObjects"
+                multiple="yes"
+                selectionIndexesKeyPath="tags.selectionIndexes" cellpadding="0"
+                cellspacing="0">
+                <tr><td textKeyPath="*._content">Tag</td>
+                </tr>
+            </table>
+            </div>
+        </div>
+
+        <div id="userPhotosList">
+            <div class="queryIndicator" visibleKeyPath="userPhotos.queryInProgress">
+                <img src="images/spinner.gif" width="16" height="16"> Loading photos&hellip;
+            </div>
+        
+            <table class="tableHeader" cellpadding="0" cellspacing="0">
+                <tr>
+                    <th class="itemName" sortKey="_content">Photos</th>
+                </tr>
+            </table>
+            <div class="scrollView">
+            <table class="tableBody" contentKeyPath="userPhotos.content"
+                cellpadding="0" cellspacing="0">
+                <tr><td><a hrefKeyPath="*.imageUrl" titleKeyPath="*.title" rel="lightbox" onclick="return false;" ondblclick="myLightbox.start(this); return false;"><img srcKeyPath="*.thumbnailUrl"></a></td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        <div id="demoFooter">
+            <p>Flickr Browser is a demo of the JavaScript Bindings library, which is
+            a <strike>blatant rip off</strike>, er, loving copy of <a href="http://developer.apple.com/documentation/Cocoa/Conceptual/CocoaBindings/CocoaBindings.html">Apple's Cocoa
+            Bindings</a> technology for the Web. Double click on the thumbnails to view
+            larger versions of the photos.</p>
+            <p class="copyright">copyright &copy; 2005-2007 Jeff Watkins</p>
+        </div>
+	</div>
+    </body>
+    
+</html>

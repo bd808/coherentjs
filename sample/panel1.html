@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="main.css" type="text/css" media="screen" />
+
+        <script src="debugging.js"></script>
+        <script src="scriptaculous/prototype.js"></script>
+        <script src="scriptaculous/scriptaculous.js"></script>
+        <script src="../src/coherent.js"></script>
+        <script src="../src/kvo.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../src/transformers.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../src/controllers.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../src/widgets.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../src/model.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            function documentDidLoad()
+            {
+                coherent.setupNode();
+            }
+        </script>
+        
+    </head>
+    
+    <body onload="documentDidLoad()">
+
+        <div>
+            search: <input widget="Search" predicate="name" 
+                        predicateKeyPath="items.filterPredicate"/>
+        </div>
+
+        <table border="0" width="100%">
+            <tr valign="bottom"><th>Unordered List</th><th>Popup List<small>Not Implemented</small></th><th>Table</th><th>Edit</th></tr>
+            <tr valign="top"><td>
+        
+                <ul id="list" contentKeyPath="items.arrangedObjects" multiple="yes"
+                    selectionIndexesKeyPath="items.selectionIndexes">
+                    <li textKeyPath="*.name">Item</li>
+                </ul>
+
+            </td><td>
+                <div widget="PopupList" class="list"
+                    contentKeyPath="items.arrangedObjects"
+                    selectionIndexesKeyPath="items.selectionIndexes">
+                    <ul>
+                        <li textKeyPath="*.name">Item</li>
+                    </ul>
+                </div>
+            </td><td class="itemTable">
+                <table class="tableHeader" widget="TableHeader"
+                    sortDescriptorsKeyPath="items.sortDescriptors"
+                    cellpadding="0" cellspacing="0">
+                    <tr>
+                        <th class="itemName" sortKey="name">Name</th>
+                        <th class="itemSize" sortKey="size">Size</th>
+                    </tr>
+                </table>
+                <table class="list" contentKeyPath="items.arrangedObjects"
+                    multiple="yes"
+                    selectionIndexesKeyPath="items.selectionIndexes"
+                    cellpadding="0" cellspacing="0">
+                    <tr><td class="itemName" textKeyPath="*.name">Item</td>
+                        <td class="itemSize" textKeyPath="*.size">Size</td>
+                    </tr>
+                </table>
+            </td><td>
+                <label for="itemName">Name:</label>
+                <input id="itemName" type="text" valueKeyPath="items.selection.name"
+                    multipleValuesPlaceholder="Multiple Values Marker"
+                    nullPlaceholder="No Value"/>
+            </td></tr>
+        </table>
+    </body>
+</html>

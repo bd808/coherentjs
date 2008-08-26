@@ -1,0 +1,250 @@
+body
+{
+    font-family: "lucida grande", "lucida sans", "sans serif";
+    font-size: 12px;
+    border: none;
+}
+
+.green
+{
+    color: green;
+}
+
+.blue
+{
+    color: blue;
+}
+
+label.disabled
+{
+    color: #ccc;
+}
+
+.selected
+{
+    background-color: #ccc;
+    color: black;
+}
+
+.nullValue
+{
+    color: #AAA;
+    font-style: italic;
+}
+
+input
+{
+    font-size: 11px;
+}
+
+.inlineEditor
+{
+    display: block;
+}
+
+.inlineEditor input
+{
+    display: block;
+}
+
+.inlineEditor span
+{
+    display: block;
+    padding: 6px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 11px;
+}
+
+.inlineEditor span.hover
+{
+    background-color: #dde;
+}
+
+#list
+{
+    border-top: 1px solid #888;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    border-bottom: 1px solid #ddd;
+    cursor: default;
+    list-style: none;
+    padding: 0;
+}
+#list li
+{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+#list.focussed
+{
+    border: 1px solid #ccf;
+}
+#list.focussed .selected
+{
+    background-color: blue;
+    color: white;
+}
+
+table
+{
+    table-layout: fixed;
+}
+
+table.list
+{
+    width: 100%;
+    border-top: 1px solid #888;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    border-bottom: 1px solid #ddd;
+    cursor: default;
+}
+table.list td
+{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+table.focussed
+{
+    border: 1px solid #ccf;
+}
+table .selected
+{
+    background-color: #ccc;
+    color: #010101;
+}
+
+table.focussed .selected
+{
+    background-color: blue;
+    color: white;
+}
+
+div.tabs
+{
+    height: 220px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+div.tabContainer
+{
+    background-color: black;
+    color: white;
+    cursor: default;
+    height: 20px;
+    line-height: 20px;
+}
+div.tabContainer .selected
+{
+    background-color: blue;
+    color: white;
+}
+
+div.tabs label
+{
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+div.tabs iframe
+{
+    width: 100%;
+    height: 200px;
+    border: none;
+}
+
+div.tabs .wait
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -16px;
+    margin-top: -16px;
+    z-index: 50;
+}
+
+div.list
+{
+    border-top: 1px solid #888;
+    border-left: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+    border-bottom: 1px solid #ddd;
+    cursor: default;
+}
+
+div.list ul
+{
+    background-color: red;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+div.list li
+{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+table.tableHeader
+{
+    cursor: default;
+    table-layout: fixed;
+    width: 100%;
+	border: 1px solid #ccc;
+	border-width: 1px 0 0 1px;
+}
+
+table.tableHeader th
+{
+    font-family: "Lucida Grande";
+    font-size: 12px;
+    padding-left: 5px;
+    padding-right: 5px;
+	border-right: 1px solid #ccc;
+	border-collapse: collapse;
+	background: #fff url(images/column_bk_unsort.gif) bottom repeat-x;
+}
+
+.tableHeader th.selected
+{
+	background-color: #bbb;
+	background-image: url(images/column_bk_sort.gif);
+    color: white;
+}
+
+.tableHeader th.asc {
+    background-image: url(images/triangle_white_up.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+.tableHeader th.desc {
+    background-image: url(images/triangle_white_down.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+
+.itemTable .itemName
+{
+    width: 75%;
+    text-align: left;
+}
+
+.itemTable .itemSize
+{
+    width: 25%;
+    text-align: left;
+}
+
+th small
+{
+    display: block;
+    font-size: 75%;
+    font-weight: normal;
+    color: #aaa;
+}

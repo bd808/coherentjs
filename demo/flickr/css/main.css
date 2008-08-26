@@ -1,0 +1,15 @@
+body
+{
+    font-family: "lucida grande", "lucida sans", "sans serif";
+    font-size: 12px;
+    border: none;
+    width: 650px;
+    margin: 25px auto;
+    background-color: #eee;
+}
+
+body *
+{
+    margin: 0;
+    padding: 0;
+}

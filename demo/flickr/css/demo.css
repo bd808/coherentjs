@@ -1,0 +1,221 @@
+#demo #userSearch
+{
+    background-repeat: no-repeat;
+	background-color: black;
+    width: 613px;
+    height: 40px;
+    padding: 10px;
+    position: relative;
+    text-align: right;
+    line-height: 40px;
+    color: white;
+    font-size: 120%;
+}
+
+#demo #userSearch h1
+{
+    background-image: url(../images/title.png);
+    background-repeat: no-repeat;
+    width: 179px;
+    height: 31px;
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+    left: 10px;
+}
+
+#demo #userSearch h1 span
+{
+    display: none;
+}
+
+#demo #userSearch label
+{
+    padding-right: 10px;
+}
+
+#demo #userInfo
+{
+    position: relative;
+    width: 262px;
+    height: 296px;
+    float: left;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-width: 1px 0px 1px 1px;
+    background-color: white;
+}
+
+#demo #userInfo img.buddyIcon
+{
+    float: left;
+    padding-right: 10px;
+}
+
+#demo #userTagsList
+{
+    position: relative;
+    float: left;
+    width: 200px;
+    background-color: white;
+}
+
+#demo #userTagsList .scrollView
+{
+    height: 300px;
+    overflow: auto;
+    border: 1px solid #ccc;
+    border-width: 1px 0px 1px 1px;
+}
+
+#demo #userPhotosList
+{
+    position: relative;
+    float: left;
+    width: 150px;
+}
+
+#demo #userPhotosList .scrollView
+{
+    height: 300px;
+    overflow: auto;
+    border: 1px solid #ccc;
+    background-color: #e8e8e8;
+}
+
+#demo #userPhotosList .tableBody td
+{
+    vertical-align: middle;
+    text-align: center;
+    height: 110px;
+    width: 110px;
+}
+
+#demo #userPhotosList .tableBody td img
+{
+    border: 1px solid #ccc;
+    padding: 2px;
+    background-color: white;
+}
+
+#demo #demoFooter
+{
+	background-color: #ccc;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    width: 613px;
+    padding: 10px;
+	clear: both;
+    min-height: 30px;
+	font-size: 80%;
+}
+
+#demo #demoFooter .copyright
+{
+    text-align: center;
+}
+
+#demo .queryIndicator
+{
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    padding: 5px;
+    text-align: center;
+    margin-left: -8px;
+    margin-top: -8px;
+    background-color: white;
+    opacity: 0.7;
+}
+
+#demo .queryIndicator img
+{
+    vertical-align: middle;
+}
+
+#demo table .selected
+{
+    background-color: #ccc;
+    color: #010101;
+}
+
+#demo table.focussed .selected
+{
+    background-color: blue;
+    color: white;
+}
+
+#demo table.tableBody
+{
+    cursor: default;
+    table-layout: fixed;
+    width: 100%;
+}
+
+#demo table.tableHeader
+{
+    cursor: default;
+    table-layout: fixed;
+    width: 100%;
+	border: 1px solid #ccc;
+	border-width: 1px 0 0 1px;
+}
+
+#demo table.tableHeader th
+{
+    text-align: left;
+    font-family: "Lucida Grande";
+    font-size: 12px;
+    padding-left: 5px;
+    padding-right: 5px;
+	border-right: 1px solid #ccc;
+	border-collapse: collapse;
+	background: #fff url(../images/column_bk_unsort.gif) bottom repeat-x;
+}
+
+#demo .tableHeader th.selected
+{
+	background-color: #bbb;
+	background-image: url(../images/column_bk_sort.gif);
+    color: white;
+}
+
+#demo .tableHeader th.asc {
+    background-image: url(../images/triangle_white_up.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+
+#demo .tableHeader th.desc {
+    background-image: url(../images/triangle_white_down.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+
+#demo .itemTable .itemName
+{
+    width: 75%;
+    text-align: left;
+}
+
+#demo .itemTable .itemSize
+{
+    width: 25%;
+    text-align: left;
+}
+
+#demo th small
+{
+    display: block;
+    font-size: 75%;
+    font-weight: normal;
+    color: #aaa;
+}
+
+#demo .tableBody td {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
